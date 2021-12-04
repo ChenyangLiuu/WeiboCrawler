@@ -11,3 +11,7 @@
 ##### 将数据存储到mongoDB：
 
 ![saved_to_mongoDB](https://github.com/ChenyangLiuu/WeiboCrawler/raw/mian/screenshots/saved_to_mongoDB.png)
+
+##### 进度：
+
+未完成：追加情感分析算法
