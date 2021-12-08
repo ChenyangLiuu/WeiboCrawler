@@ -13,9 +13,9 @@ collection=connect_to_mongo()
 
 #ui
 window = Tk()
-window.title("Hello World")
+window.title("开始")
 window.geometry('350x200')
-lbl = Label(window, text="Hello! My name is ")
+lbl = Label(window, text="输入关键字 ")
 lbl.grid(column=0, row=0)
 txt = Entry(window, width=10)
 txt.grid(column=1, row=0)
@@ -27,7 +27,7 @@ def clicked1():
     window.destroy()
 
 
-btn1 = Button(window, text="submit", command=clicked1)
+btn1 = Button(window, text="search", command=clicked1)
 btn1.grid(column=2, row=0)
 window.mainloop()
 
