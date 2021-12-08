@@ -12,6 +12,10 @@
 
 ![saved_to_mongoDB](https://github.com/ChenyangLiuu/WeiboCrawler/raw/mian/screenshots/saved_to_mongoDB.png)
 
+##### 微博评论数据截图：
+
+![comments](https://github.com/ChenyangLiuu/WeiboCrawler/raw/mian/screenshots/comments.png)
+
 ##### 进度：
 
 未完成：追加情感分析算法
