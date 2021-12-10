@@ -16,6 +16,10 @@
 
 ![comments](https://github.com/ChenyangLiuu/WeiboCrawler/raw/mian/screenshots/comments.png)
 
+##### 对每一句话进行情感分析得到的分值:
+
+![sentiment_analysis](https://github.com/ChenyangLiuu/WeiboCrawler/raw/mian/screenshots/sentiment_analysis.png)
+
 ##### 进度：
 
-未完成：追加情感分析算法
+未完成：追加数据可视化子系统
