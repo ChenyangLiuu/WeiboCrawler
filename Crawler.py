@@ -4,9 +4,10 @@ from pyquery import PyQuery as pq
 from pymongo import MongoClient
 
 # 表示请求的URL的前半部分
-from mongo import save_to_mongo
+from mongo import save_to_mongo, connect_to_mongo
 
-
+table_name1 = 'comments'
+collection1=connect_to_mongo(table_name1)
 class params:
     base_url = 'https://m.weibo.cn/api/container/getIndex?'
 
@@ -16,7 +17,7 @@ class params:
         'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36',
         'X-Requested-With': 'XMLHttpRequest'
     }
-    max_page = 50
+    max_page = 100
 
 # # 第一个参数host是mongobd的地址，第二个参数是端口port（默认27017）
 # client = MongoClient(host='127.0.0.1', port=27017)
@@ -48,7 +49,7 @@ def get_page(page,base_url,headers):
     except requests.ConnectionError as e:
         print('Error', e.args)
 
-keyword='冬奥会'
+keyword='共产党'
 # string str = "abc";
 #         boolean
 #         status = str.contains("a");
@@ -66,15 +67,15 @@ def parse_page(keyword,json, page: int):
                 item = item.get('mblog', {})
                 if keyword in pq(item.get('text')).text():
 
-                    weibo = {}
-                    weibo['id'] = item.get('id')  # 微博的ID
+                    comments = {}
+                    # comments['id'] = item.get('id')  # 微博的ID
 
-                    weibo['text'] = pq(item.get('text')).text()  # 正文
+                    comments['comment_text'] = pq(item.get('text')).text()  # 正文
 
-                    weibo['attitudes'] = item.get('attitudes_count')  # 点赞数
-                    weibo['comments'] = item.get('comments_count')  # 评论数
-                    weibo['reposts'] = item.get('reposts_count')  # 转发数
-                    yield weibo
+                    # comments['attitudes'] = item.get('attitudes_count')  # 点赞数
+                    # comments['comments'] = item.get('comments_count')  # 评论数
+                    # comments['reposts'] = item.get('reposts_count')  # 转发数
+                    yield comments
 
 
 # def save_to_mongo(result):
@@ -84,10 +85,17 @@ def parse_page(keyword,json, page: int):
 
 
 if __name__ == '__main__':
+    base_url = 'https://m.weibo.cn/api/container/getIndex?'
 
+    headers = {
+        'Host': 'm.weibo.cn',
+        'Referer': 'https://m.weibo.cn/u/2803301701?uid=2803301701&t=0&luicode=10000011&lfid=100103type%3D1%26q%3D%E4%BA%BA%E6%B0%91%E6%97%A5%E6%8A%A5',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/77.0.3865.75 Safari/537.36',
+        'X-Requested-With': 'XMLHttpRequest'
+    }
     for page in range(1, params.max_page + 1):
-        json = get_page(page)
+        json = get_page(page,base_url,headers)
         results = parse_page(keyword,*json)
         for result in results:
             print(result)
-            save_to_mongo(result)
+            save_to_mongo(collection1,result)

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>分析中</title>
+  <link href="https://fonts.googleapis.com/css?family=Anton" rel="stylesheet">
+
+  
+  
+      <link rel="stylesheet" href="static/assets/vendor/animate.css/loading.css">
+
+  
+</head>
+
+<body>
+    <div >
+    <li style="list-style:none;"><a id="aid" href="/loading" ><img border="0" style="  width:250px"src="static/assets/img/loading.png" /></a></li>
+    </div>
+  <svg viewBox="0 0 800 600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+  
+   <line class="mark" x1="0" y1="0" x2="0" y2="0" fill="none" stroke="#5BB4D8" stroke-miterlimit="10" stroke-linecap="none" stroke-width="12"/>
+    
+   </defs>
+ <g class="container1"/>
+ <g class="container2"/>
+
+</svg>
+  <script src='static/assets/vendor/loading/TweenMax.min.js'></script>
+
+
+    <script  src="static/assets/vendor/loading/index.js"></script>
+    <script>
+    (()=>{
+			// 兼容IE
+		    if(document.all) {
+		        document.getElementById("aid").click();
+		    }
+		    // 兼容其它浏览器
+		    else {
+		        var e = document.createEvent("MouseEvents");
+		        e.initEvent("click", true, true);
+		        document.getElementById("aid").dispatchEvent(e);
+		    }
+		})();
+
+</script>
+
+<div style="text-align:center;clear:both">
+<script src="/statics.js" type="text/javascript"></script>
+</div>
+
+</body>
+
+</html>

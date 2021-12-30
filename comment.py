@@ -6,16 +6,21 @@ from bs4 import BeautifulSoup
 import time
 import csv
 import random
-import GUI
 from mongo import save_to_mongo, connect_to_mongo
 
-collection=connect_to_mongo()
+table_name1 = 'comments'
+collection1=connect_to_mongo(table_name1)
 
-keyword=GUI.keyword
 
+table_name2 = 'weibo_content'
+collection2=connect_to_mongo(table_name2)
+
+
+
+keyword='书'
 requests = requests.session()  # 建立一个Session
 
-cookitext = 'ALF=1641306018; SUB=_2A25MqLryDeRhGeNI6lYW8ybEzziIHXVsUsa6rDV6PUNbktCOLVPwkW1NSIs8fWpKh0y9UAXTdYoLtowbb8paJpG0; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WWCjlqNGpiX0zjGV23oNRFA5JpX5KzhUgL.Fo-ceKBNe0nRShB2dJLoI7yeIPH9KK54SBtt; _T_WM=f1a49801fee25e140dd4968ed0ea7d3c'
+cookitext = '_T_WM=5a920360a376d10aa9f0557b02510103; SCF=Ahvp2dJs7II7hCt72nj1yHzeSLl_lYtOtWDINyx9R9wvI7-UFJNAN5C2zUx1l54S-rf3CG1bUohNlHuYYMgGN18.; SUB=_2A25Mwb4qDeRhGeNI6lYW8ybEzziIHXVsTcJirDV6PUJbktCOLVfGkW1NSIs8fSmPVzMZc1Q0hI3LmGh1KL7Dx2fM; SUBP=0033WrSXqPxfM725Ws9jqgMF55529P9D9WWCjlqNGpiX0zjGV23oNRFA5JpX5K-hUgL.Fo-ceKBNe0nRShB2dJLoI7yeIPH9KK54SBtt; ALF=1642945402'
 
 headers = {
     'accept': 'application/json, text/plain, */*',
@@ -76,13 +81,16 @@ def getWeiboCommentinfo(url):
                 user_index = "https:" + user_info[0]['href']  # 用户主页
                 user_from = str(ct.find('p', class_="from").text).replace(' ', '').replace('\n', '')  # 时间和发布终端设备名称
                 weibo_content = str(ct.find('p', class_="txt").text).replace(' ', '').replace('\n', '')  # 微博内容
-
-
+                weiboContent = {}
+                weiboContent['weibo_content']= weibo_content
                 data = [weibo_content, user_name, user_from, user_index, mid, uid]
 
                 max_id = 0
                 htmlComment(data)
-                getCommentLevel1(data, max_id)
+                try:
+                  getCommentLevel1(data, max_id)
+                except:
+                    pass
 
 
 def getCommentLevel1(data, max_id):
@@ -117,7 +125,7 @@ def getCommentLevel1(data, max_id):
         comments['comment_text'] = ct['text_raw']  # 评论内容
         comments['comment_user'] = ct['user']['screen_name']  # 评论人名称
         print(comments['comment_text'])
-        save_to_mongo(collection, comments)
+        save_to_mongo(collection1, comments)
 
     if max_id == 0:
         pass
@@ -152,7 +160,7 @@ def htmlComment(data):
         comments['comment_user'] = comment_info[0]
         comments['comment_time'] = cc.find('p', class_="from").text
         print(comments['comment_text'])
-        save_to_mongo(collection, comments)
+        save_to_mongo(collection1, comments)
 
 
 def runx(keyword):
